@@ -1,15 +1,10 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 /**
  *
  */
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+
 /**
  * @author internous
  *
@@ -18,120 +13,102 @@ public class KisoKadai1 {
 
 	/**
 	 * @param args
+	 * @return
 	 */
-	public static void main(String[] args) throws IOException{
-		System.out.println("--処理開始--");
-		//コマンドライン引数が入力されているかチェックを行う
-		if(args.length==0){
-			System.out.println("コマンドライン引数を指定して入力しなおしてください。");
-			System.out.println("[例] > java TextStream C:\test\test.txt");
-			System.out.println("\n処理を終了します");
-			return;
-		}
-		// ファイルパスを指定する
-		File file = new File(args[0]);
-		// ディレクトリパスを取得する
-		File dir=new File(file.getParent());
+	public static void main(String[] args) {
 
-		if(!dir.exists()){
-			System.out.println("フォルダがありません。:"+file.getAbsolutePath());
-			dir.mkdirs();
-			System.out.println("作成成功");
-		} else {
-			System.out.println("フォルダは既に存在します。");
-		}
+		System.out.println("九九表");
 
-		if(file.exists()){
-			System.out.println("ファイルは既に存在します。\n" + file.getAbsolutePath());
-		}else{
-			System.out.println("ファイルは存在しません。\n"+file.getAbsolutePath());
-			try{
-				if (file.createNewFile()){
-					System.out.println("作成成功");
-				}else{
-					System.out.println("作成失敗");
-				}
-			}catch(IOException e){
-				System.out.println(e);
-			}
-		}
+		boolean f = true;
 
+		String str = null;
+		int y;
+		while (f) {
+			try {
+				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
+				System.out.println("行数を入力してください。"
+						+ "(行数・列数ともに数字は1～9までとなっております。)");
+				str = br.readLine();
 
-		int end = 0;
-		while(end==0){
+				if (isNumber(str)) {
+					y = Integer.parseInt(str);
+					if (y >= 1 && y < 100) {
 
-			System.out.println("\n\n--メニュー--\n\n 1:読み込み\n 2:書き込み\n99:終了\nを入力してください");
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-			String str = br.readLine();
-			int nu = 0;
-
-			if(str.matches("^[0-9]+$")){
-				nu=Integer.parseInt(str);
-			}else{
-				System.out.println("\n----------\n半角数値でメニューを選択してください。\n----------\n");
-			}
-
-			if(nu==99){
-				System.out.println("終了");
-				break;
-			}
-			if(nu==1){
-				System.out.println("ファイルを読む");
-				try{
-					FileReader filereader = new FileReader(file.getAbsolutePath());
-
-					int ch;
-					while((ch = filereader.read()) != -1){
-						System.out.print((char)ch);
-					}
-
-					filereader.close();
-				}catch(FileNotFoundException e){
-					System.out.println(e);
-				}catch(IOException e){
-					System.out.println(e);
-				}
-			}
-			if(nu==2){
-				System.out.println("ファイルを書く");
-				try {
-					boolean mode = false;
-					System.out.println("モードの設定。1:追記、2:上書き");
-					BufferedReader br2 = new BufferedReader(new InputStreamReader(System.in));
-					String str2 = br2.readLine();
-					// モードを決める
-					switch (str2) {
-					case "1":
-						mode = true;
 						break;
-					case "2":
-						mode = false;
-					default:
-						break;
+					} else {
+						System.out.println("1～99以外の数字になっていませんか？"
+								+ "\nもう一度ご確認のうえ再度1～9間での数字を入力くださいますようなにとぞよろしくお願いいたします。");
 					}
-					//出力先を作成する
-					FileWriter fw = new FileWriter(file.getAbsolutePath(), mode);
-					PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
-
-					//内容を指定する
-					BufferedReader br3 = new BufferedReader(new InputStreamReader(System.in));
-					String str3 = br3.readLine();
-					pw.println(str3);
-
-					//ファイルに書き出す
-					pw.close();
-
-					//終了メッセージを画面に出力する
-					System.out.println("出力が完了しました。");
-
-				} catch (IOException ex) {
-					//例外時処理
-					ex.printStackTrace();
+				} else {
+					System.out.println("数字以外になっていないですか？"
+							+ "\nもう一度ご確認のうえ再度1～9までの数字を入力くださいますようなにとぞよろしくお願いいたします。");
 				}
-
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
-		System.out.println("--処理終了--");
+
+
+		String str2 = null;
+		int x;
+		while (f) {
+			try {
+				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+				System.out.println("列数を入力してください。");
+				str2 = br.readLine();
+
+				if (isNumber(str2)) {
+					x = Integer.parseInt(str2);
+					if (x >=1 && x < 100) {
+						break;
+					} else {
+						System.out.println("1～99以外の数字になっていませんか？"
+								+ "\nもう一度ご確認のうえ再度1～9間での数字を入力くださいますようなにとぞよろしくお願いいたします。");
+					}
+				} else {
+					System.out.println("数字以外になっていないですか？"
+							+ "\nもう一度ご確認のうえ再度1～9までの数字を入力くださいますようなにとぞよろしくお願いいたします。");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		y = Integer.parseInt(str);
+		x = Integer.parseInt(str2);
+
+		for (int i = 1; i <= y; i++) {
+			for (int j = 1; j <= x; j++) {
+				if (i * j < 10) {
+					System.out.print("   " + (i * j));
+					System.out.print(" ");
+				}
+				else if(i * j < 100){
+					System.out.print("  " + (i * j));
+					System.out.print(" ");
+				}
+				else if(i * j < 1000){
+					System.out.print(" " + (i * j));
+					System.out.print(" ");
+				}
+				else{
+					System.out.print(i * j);
+					System.out.print(" ");
+				}
+			}
+			System.out.println("");
+		}
+
 	}
+	public static boolean isNumber(String val) {
+		try {
+			Integer.parseInt(val);
+			return true;
+		} catch (NumberFormatException nfex) {
+			return false;
+		}
+
+	}
+
 }
